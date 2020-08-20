@@ -29,7 +29,7 @@ public class Recipe {
     private int servings;
 
     @ManyToMany
-    private Set<Category> categories;
+    private Set<Category> categories = new HashSet<>();
 
     @OneToMany (mappedBy = "recipe", cascade = CascadeType.ALL)
     private Set<Ingredient> ingredients= new HashSet<>();
