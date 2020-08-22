@@ -8,9 +8,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.validateMockitoUsage;
 import static org.mockito.Mockito.when;
 
 class DefaultRecipeServiceTest {
@@ -24,6 +27,19 @@ class DefaultRecipeServiceTest {
         MockitoAnnotations.initMocks(this);
 
         defaultRecipeService = new DefaultRecipeService(recipeRepository);
+    }
+
+    @Test
+    void getRecipeById(){
+        Recipe recipe = Recipe.builder().id(1L).build();
+        Optional<Recipe> optionalRecipe = Optional.of(recipe);
+
+        when(recipeRepository.findById(anyLong())).thenReturn(optionalRecipe);
+
+        Recipe returnedRecipe = defaultRecipeService.showById(1L);
+
+        assertNotNull(returnedRecipe);
+        assertEquals(returnedRecipe.getId(), 1L);
     }
 
     @Test

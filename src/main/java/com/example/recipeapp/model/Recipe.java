@@ -1,13 +1,12 @@
 package com.example.recipeapp.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 
 @Entity
@@ -21,11 +20,12 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
+    @Lob
     private String directions;
     private String source;
     private String url;
     private int prepTime;
-    private int cookTime;
+    private double cookTime;
     private int servings;
 
     @ManyToMany
@@ -42,5 +42,15 @@ public class Recipe {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
+
+    public void addIngredient(Ingredient ingredient){
+        this.getIngredients().add(ingredient);
+        ingredient.setRecipe(this);
+    }
+
+    public void addNotes(Notes notes){
+        this.setNotes(notes);
+        notes.setRecipe(this);
+    }
 
 }

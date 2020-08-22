@@ -18,4 +18,9 @@ public class DefaultRecipeService implements RecipeService {
     public Set<Recipe> getAllRecipes() {
         return new HashSet<>(recipeRepository.findAll());
     }
+
+    @Override
+    public Recipe showById(Long id) {
+        return recipeRepository.findById(id).orElse(Recipe.builder().description("Recipe not found").build());
+    }
 }

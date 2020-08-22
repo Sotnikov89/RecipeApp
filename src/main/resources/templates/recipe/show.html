@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Рецепт</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}"
+    >
+
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"
+            th:href="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}"
+    ></script>
+
+</head>
+<body>
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="justify-content-center">
+        <div class="col-md-6 offset-md-3">
+
+            <div class="card mb-3">
+                <div class="card-header bg-primary text-light mb-3">
+                    <h1 class="card-title" th:text="${recipe.description}">Recipe Description</h1>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Кухня:</h5>
+                        </div>
+                        <div class="col-md-9">
+                            <ul>
+                                <li th:remove="all">cat one</li>
+                                <li th:remove="all">cat two</li>
+                                <li th:each="category : ${recipe.getCategories()}" th:text="${category.getCategoryName()}">cat three</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Время подготовки:</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <p th:text="${(recipe.getPrepTime()) + ' мин.'}">30 min</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Сложность:</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <p th:text="${recipe.getDifficulty().getTitle()}">Easy</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Время приготовления:</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <p th:text="${(recipe.getCookTime()) + ' ч.'}">30 min</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Персоны:</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <p th:text="${recipe.getServings()}">4</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Источник:</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <p th:text="${recipe.getSource()}">30 min</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>URL:</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <p><a href="#" th:href="@{${recipe.getUrl()}}">Ссылка на оригинал</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header bg-primary text-light mb-3">
+                    <h1 class="card-title" >Ингредиенты</h1>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul>
+                                <li th:remove="all">1 Cup</li>
+                                <li th:remove="all">1 Teaspoon</li>
+                                <li th:each="ingredient : ${recipe.getIngredients()}"
+                                    th:text="${(ingredient.getDescription() +' - '+ingredient.getAmount()+' '+ingredient.getUOM().getUomName())}">1 Teaspoon</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header bg-primary text-light mb-3">
+                    <h1 class="card-title" >Приготовление</h1>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p th:text="${recipe.getDirections()}"> Тут готовим долго и упорно </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header bg-primary text-light mb-3">
+                    <h1 class="card-title">Заметки</h1>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p th:text="${recipe.getNotes().getRecipeNotes()}">Тут текст заметки</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
