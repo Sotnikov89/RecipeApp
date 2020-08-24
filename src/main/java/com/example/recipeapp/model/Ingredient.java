@@ -16,6 +16,7 @@ public class Ingredient {
     private Long id;
     @ManyToOne
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Recipe recipe;
     private String description;
     private int amount;

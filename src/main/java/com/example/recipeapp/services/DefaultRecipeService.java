@@ -20,7 +20,17 @@ public class DefaultRecipeService implements RecipeService {
     }
 
     @Override
-    public Recipe showById(Long id) {
-        return recipeRepository.findById(id).orElse(Recipe.builder().description("Recipe not found").build());
+    public Recipe getRecipeById(Long id) {
+        return recipeRepository.findById(id).orElseThrow(() -> new RuntimeException("Recipe not found"));
+    }
+
+    @Override
+    public Recipe saveOrUpdateRecipe(Recipe recipe) {
+        return recipeRepository.save(recipe);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        recipeRepository.deleteById(id);
     }
 }

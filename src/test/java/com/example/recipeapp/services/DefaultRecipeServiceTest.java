@@ -13,7 +13,6 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.validateMockitoUsage;
 import static org.mockito.Mockito.when;
 
 class DefaultRecipeServiceTest {
@@ -36,7 +35,7 @@ class DefaultRecipeServiceTest {
 
         when(recipeRepository.findById(anyLong())).thenReturn(optionalRecipe);
 
-        Recipe returnedRecipe = defaultRecipeService.showById(1L);
+        Recipe returnedRecipe = defaultRecipeService.getRecipeById(1L);
 
         assertNotNull(returnedRecipe);
         assertEquals(returnedRecipe.getId(), 1L);
