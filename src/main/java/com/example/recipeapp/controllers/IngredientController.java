@@ -19,8 +19,7 @@ public class IngredientController {
     private final IngredientService ingredientService;
     private final UnitOfMeasureService unitOMeasureService;
 
-    @GetMapping
-    @RequestMapping("/recipe/{recipeId}/ingredients")
+    @GetMapping("/recipe/{recipeId}/ingredients")
     public String showRecipeIngredients(@PathVariable Long recipeId, Model model){
 
         model.addAttribute("recipe", recipeService.getRecipeById(recipeId));
@@ -28,8 +27,7 @@ public class IngredientController {
         return "recipe/ingredient/list";
     }
 
-    @GetMapping
-    @RequestMapping("/recipe/{recipeId}/ingredient/new")
+    @GetMapping("/recipe/{recipeId}/ingredient/new")
     public String addNewRecipeIngredient(@PathVariable Long recipeId, Model model){
 
         Recipe existRecipe = recipeService.getRecipeById(recipeId);
@@ -40,8 +38,7 @@ public class IngredientController {
         return "recipe/ingredient/ingredientform";
     }
 
-    @GetMapping
-    @RequestMapping("/recipe/{recipeId}/ingredient/{ingredientId}/update")
+    @GetMapping("/recipe/{recipeId}/ingredient/{ingredientId}/update")
     public String updateRecipeIngredient(@PathVariable Long recipeId, @PathVariable Long ingredientId, Model model){
 
         model.addAttribute("uomList", unitOMeasureService.getAllUnitOfMeasure());
@@ -50,8 +47,7 @@ public class IngredientController {
         return "recipe/ingredient/ingredientform";
     }
 
-    @PostMapping
-    @RequestMapping("/recipe/{recipeId}/ingredient")
+    @PostMapping("/recipe/{recipeId}/ingredient")
     public String saveOrUpdateRecipeIngredient(@PathVariable Long recipeId, @ModelAttribute Ingredient ingredient){
 
         Ingredient savedIngredient = ingredientService.saveOrUpdateIngredient(ingredient, recipeId);
@@ -59,8 +55,7 @@ public class IngredientController {
         return "redirect:/recipe/"+savedIngredient.getRecipe().getId()+"/ingredients";
     }
 
-    @PostMapping
-    @RequestMapping("/recipe/{recipeId}/ingredient/{ingredientId}/delete")
+    @GetMapping("/recipe/{recipeId}/ingredient/{ingredientId}/delete")
     public String deleteIngredient(@PathVariable Long recipeId, @PathVariable Long ingredientId){
 
         ingredientService.deleteByRecipeIdAndId(recipeId, ingredientId);
