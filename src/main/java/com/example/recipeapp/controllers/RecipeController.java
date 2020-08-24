@@ -50,6 +50,6 @@ public class RecipeController {
 
         recipeService.deleteById(id);
 
-        return "redirect:index";
+        return "redirect:/index";
     }
 }
