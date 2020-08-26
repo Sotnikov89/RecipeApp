@@ -1,5 +1,6 @@
 package com.example.recipeapp.services;
 
+import com.example.recipeapp.exceptions.NotFoundException;
 import com.example.recipeapp.model.Recipe;
 import com.example.recipeapp.repositories.RecipeRepository;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ public class DefaultImageService implements ImageService {
 
     @Override
     public void saveImage(Long recipeId, MultipartFile multipartFile) {
-        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(()-> new RuntimeException("Recipe not found"));
+        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(()-> new NotFoundException("Recipe not found"));
 
         try {
             Byte[] bytes = new Byte[multipartFile.getBytes().length];

@@ -1,9 +1,11 @@
 package com.example.recipeapp.services;
 
+import com.example.recipeapp.exceptions.NotFoundException;
 import com.example.recipeapp.model.Recipe;
 import com.example.recipeapp.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -24,6 +26,7 @@ class DefaultRecipeServiceTest {
 
     @BeforeEach
     void setUp() {
+
         MockitoAnnotations.initMocks(this);
 
         defaultRecipeService = new DefaultRecipeService(recipeRepository);
@@ -31,6 +34,7 @@ class DefaultRecipeServiceTest {
 
     @Test
     void getRecipeById(){
+
         Recipe recipe = Recipe.builder().id(1L).build();
         Optional<Recipe> optionalRecipe = Optional.of(recipe);
 
@@ -40,6 +44,19 @@ class DefaultRecipeServiceTest {
 
         assertNotNull(returnedRecipe);
         assertEquals(returnedRecipe.getId(), 1L);
+    }
+
+    @Test
+    void getRecipeByIdNotFound(){
+
+        Exception exception = assertThrows(NotFoundException.class, () ->{
+            defaultRecipeService.getRecipeById(1L);
+        });
+
+        String exceptedMessage = "Recipe not found";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(exceptedMessage));
     }
 
     @Test
@@ -56,6 +73,7 @@ class DefaultRecipeServiceTest {
 
     @Test
     void saveOrUpdateRecipe() {
+
         Recipe recipe = Recipe.builder().id(3L).build();
 
         when(recipeRepository.save(any())).thenReturn(recipe);
@@ -68,6 +86,7 @@ class DefaultRecipeServiceTest {
 
     @Test
     void deleteById() {
+
         Long id = 3L;
         defaultRecipeService.deleteById(id);
 

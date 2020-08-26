@@ -1,5 +1,6 @@
 package com.example.recipeapp.services;
 
+import com.example.recipeapp.exceptions.NotFoundException;
 import com.example.recipeapp.model.Ingredient;
 import com.example.recipeapp.model.Recipe;
 import com.example.recipeapp.repositories.RecipeRepository;
@@ -19,9 +20,9 @@ public class DefaultIngredientService implements IngredientService {
         if (recipeRepository.findById(recipeId).isPresent())
             return recipeRepository.findById(recipeId).get().getIngredients().stream()
                     .filter(ingredient -> ingredient.getId().equals(id)).findFirst()
-                    .orElseThrow(() -> new RuntimeException("Ingredient not found"));
+                    .orElseThrow(() -> new NotFoundException("Ingredient not found"));
 
-        else throw new RuntimeException("Recipe not found");
+        else throw new NotFoundException("Recipe not found");
     }
 
     @Override
@@ -45,7 +46,7 @@ public class DefaultIngredientService implements IngredientService {
 
                 return savedRecipe.getIngredients().stream().
                         filter(value -> value.getId().equals(ingredient.getId())).findFirst()
-                        .orElseThrow(() -> new RuntimeException("Ingredient not found"));
+                        .orElseThrow(() -> new NotFoundException("Ingredient not found"));
 
             } else {
                 //add new ingredient
@@ -59,14 +60,14 @@ public class DefaultIngredientService implements IngredientService {
                         .filter(value -> value.getUOM().getId().equals(ingredient.getUOM().getId()))
                         .findFirst();
 
-                return newIngredient.orElseThrow(() -> new RuntimeException("Ingredient not found"));
+                return newIngredient.orElseThrow(() -> new NotFoundException("Ingredient not found"));
             }
-        } else throw new RuntimeException("Recipe not found");
+        } else throw new NotFoundException("Recipe not found");
     }
 
     @Override
     public void deleteByRecipeIdAndId(Long recipeId, Long id) {
-        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(()-> new RuntimeException("Recipe not found"));
+        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(()-> new NotFoundException("Recipe not found"));
         recipe.getIngredients().stream().filter(ingredient -> ingredient.getId().equals(id)).findFirst()
                 .ifPresent(ingredient -> ingredient.setRecipe(null));
         recipe.getIngredients().removeIf(ingredient -> ingredient.getId().equals(id));

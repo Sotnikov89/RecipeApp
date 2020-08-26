@@ -1,5 +1,6 @@
 package com.example.recipeapp.services;
 
+import com.example.recipeapp.exceptions.NotFoundException;
 import com.example.recipeapp.model.Recipe;
 import com.example.recipeapp.repositories.RecipeRepository;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class DefaultRecipeService implements RecipeService {
 
     @Override
     public Recipe getRecipeById(Long id) {
-        return recipeRepository.findById(id).orElseThrow(() -> new RuntimeException("Recipe not found"));
+        return recipeRepository.findById(id).orElseThrow(() -> new NotFoundException("Recipe not found"));
     }
 
     @Override
