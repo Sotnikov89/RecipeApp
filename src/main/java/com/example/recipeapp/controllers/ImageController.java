@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 
 @Controller
@@ -49,9 +50,8 @@ public class ImageController {
         if (recipe.getImage() != null) {
             byte[] byteArray = new byte[recipe.getImage().length];
             int i = 0;
-
             for (Byte wrappedByte : recipe.getImage()){
-                byteArray[i++] = wrappedByte; //auto unboxing
+                byteArray[i++] = wrappedByte;
             }
 
             response.setContentType("image/jpeg");
