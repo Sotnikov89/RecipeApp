@@ -23,7 +23,7 @@ public class ExceptionController {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
-    public ModelAndView handleNotFound(Exception exception){
+    public ModelAndView NotFoundExcep(Exception exception){
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("404error");
