@@ -12,8 +12,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class DefaultRecipeServiceTest {
 
@@ -44,13 +45,32 @@ class DefaultRecipeServiceTest {
     @Test
     void getAllRecipes() {
 
-        List<Recipe> dataRecipe = List.of(new Recipe());
+        List<Recipe> recipes = List.of(new Recipe());
 
-        when(recipeRepository.findAll()).thenReturn(dataRecipe);
+        when(recipeRepository.findAll()).thenReturn(recipes);
 
-        Set<Recipe> recipes = defaultRecipeService.getAllRecipes();
+        Set<Recipe> recipeSet = defaultRecipeService.getAllRecipes();
 
-        assertEquals(recipes.size(), 1);
+        assertEquals(recipeSet.size(), 1);
     }
 
+    @Test
+    void saveOrUpdateRecipe() {
+        Recipe recipe = Recipe.builder().id(3L).build();
+
+        when(recipeRepository.save(any())).thenReturn(recipe);
+
+        Recipe returnedRecipe = defaultRecipeService.saveOrUpdateRecipe(recipe);
+
+        assertNotNull(returnedRecipe);
+        assertEquals(returnedRecipe.getId(), 3L);
+    }
+
+    @Test
+    void deleteById() {
+        Long id = 3L;
+        defaultRecipeService.deleteById(id);
+
+        verify(recipeRepository, times(1)).deleteById(anyLong());
+    }
 }
