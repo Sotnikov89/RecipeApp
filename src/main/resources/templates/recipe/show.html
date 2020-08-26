@@ -30,12 +30,17 @@
                         <div class="col-md-3">
                             <h5>Кухня:</h5>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-3">
                             <ul>
                                 <li th:remove="all">one</li>
                                 <li th:remove="all">two</li>
                                 <li th:each="category : ${recipe.getCategories()}" th:text="${category.getCategoryName()}">three</li>
                             </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <img src="../../static/images/Borscht.jpg"
+                                 th:src="@{'/recipe/' + ${recipe.id} + '/recipeimage'}"
+                                 width="200" height="200">
                         </div>
                     </div>
 

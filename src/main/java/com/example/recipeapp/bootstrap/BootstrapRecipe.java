@@ -10,7 +10,11 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -74,6 +78,19 @@ public class BootstrapRecipe implements ApplicationListener<ContextRefreshedEven
                 "(она обладает свойством сорбента - мягко выводит из организма токсины), но и сохраняют полезные свойства в вареном виде. " +
                 "В свекле много витаминов группы В, РР, йода, калия, железа. В вареной моркови содержится в три раза больше антиоксидантов, чем в сырой - эти вещества защищают от рака."
         ).build());
+
+        try {
+            File file = new File("src\\main\\resources\\static\\images\\Borscht.jpg");
+            byte[] img = Files.readAllBytes(file.toPath());
+
+            Byte[] image = new Byte[img.length];
+            Arrays.setAll(image, value -> img[value]);
+
+            borshRecipe.setImage(image);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         listRecipes.add(borshRecipe);
 

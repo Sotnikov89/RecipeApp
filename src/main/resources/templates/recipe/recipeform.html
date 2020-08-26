@@ -34,22 +34,25 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-3">
                                     <label>Кухня:</label>
                                 </div>
-                                <div class="col-md-9 form-group">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="checkbox" value=""/>
-                                            1
-                                        </label>
-                                    </div>
-                                    <div class="radio" th:remove="all">
-                                        <label>
-                                            <input type="checkbox" value=""/>
-                                            2
-                                        </label>
-                                    </div>
+                                <div class="col-md-3">
+                                    <ul>
+                                        <li th:remove="all">one</li>
+                                        <li th:remove="all">two</li>
+                                        <li th:each="category : ${recipe.categories}"
+                                            th:text="${category.getCategoryName()}">three</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <img src="../../static/images/Borscht.jpg"
+                                         th:src="@{'/recipe/' + ${recipe.id} + '/recipeimage'}"
+                                         width="200" height="200">
+                                </div>
+                                <div class="col-md-3">
+                                <a class="btn btn-primary" href="#"
+                                   th:href="@{'/recipe/' + ${recipe.id} + '/image'}" role="button">Изменить картинку</a>
                                 </div>
                             </div>
                             <div class="row">
@@ -142,7 +145,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Отправить</button>
             </form>
         </div>
     </div>
