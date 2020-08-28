@@ -21,8 +21,8 @@ import java.util.Set;
 
 @Component
 @AllArgsConstructor
-@Profile("default")
-public class BootstrapRecipe implements ApplicationListener<ContextRefreshedEvent> {
+@Profile("sql")
+public class BootstrapRecipeSQL implements ApplicationListener<ContextRefreshedEvent> {
 
     private final CategoryRepository categoryRepository;
     private final RecipeRepository recipeRepository;
@@ -31,7 +31,9 @@ public class BootstrapRecipe implements ApplicationListener<ContextRefreshedEven
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        recipeRepository.saveAll(getRecipes());
+        if (categoryRepository.count()==0) loadAllCategories();
+        if (unitOfMeasureRepository.count()==0) loadAllUom();
+        if (recipeRepository.count()==0) recipeRepository.saveAll(getRecipes());
     }
 
     private List<Recipe> getRecipes(){
@@ -97,5 +99,29 @@ public class BootstrapRecipe implements ApplicationListener<ContextRefreshedEven
         listRecipes.add(borshRecipe);
 
         return listRecipes;
+    }
+
+    private void loadAllCategories(){
+        List<Category> categories = List.of(
+                Category.builder().categoryName("Американская").build(),
+                Category.builder().categoryName("Итальянская").build(),
+                Category.builder().categoryName("Русская").build(),
+                Category.builder().categoryName("ФастФуд").build(),
+                Category.builder().categoryName("Белорусская").build(),
+                Category.builder().categoryName("Украинская").build(),
+                Category.builder().categoryName("").build());
+
+        categoryRepository.saveAll(categories);
+    }
+
+    private void loadAllUom(){
+        List<UnitOfMeasure> unitOfMeasures = List.of(
+                UnitOfMeasure.builder().uomName("ст. л.").build(),
+                UnitOfMeasure.builder().uomName("ч. л.").build(),
+                UnitOfMeasure.builder().uomName("кг.").build(),
+                UnitOfMeasure.builder().uomName("г.").build(),
+                UnitOfMeasure.builder().uomName("шт.").build());
+
+        unitOfMeasureRepository.saveAll(unitOfMeasures);
     }
 }

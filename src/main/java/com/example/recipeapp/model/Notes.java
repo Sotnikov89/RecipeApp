@@ -16,6 +16,7 @@ public class Notes {
     private Long id;
     @OneToOne
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Recipe recipe;
     @Lob
     private String recipeNotes;
