@@ -8,12 +8,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.Model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -77,7 +74,7 @@ class RecipeControllerTest {
     void testSaveOrUpdateRecipe() throws Exception {
         Recipe recipe = Recipe.builder().id(2L).build();
 
-        when(recipeService.saveOrUpdateRecipe(any())).thenReturn(recipe);
+        when(recipeService.saveNewRecipe(any())).thenReturn(recipe);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/recipe")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -87,7 +84,7 @@ class RecipeControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/2/show"));
 
-        verify(recipeService, times(1)).saveOrUpdateRecipe(any());
+        verify(recipeService, times(1)).saveNewRecipe(any());
     }
 
     @Test

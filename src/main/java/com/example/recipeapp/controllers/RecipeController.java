@@ -40,7 +40,7 @@ public class RecipeController {
     @PostMapping("recipe")
     public String saveOrUpdateRecipe(@ModelAttribute Recipe recipe){
 
-        Recipe savedRecipe = recipeService.saveOrUpdateRecipe(recipe);
+        Recipe savedRecipe = recipeService.saveNewRecipe(recipe);
 
         return "redirect:/recipe/"+savedRecipe.getId()+"/show";
     }

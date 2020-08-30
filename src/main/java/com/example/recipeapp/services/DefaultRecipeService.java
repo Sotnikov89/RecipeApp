@@ -26,8 +26,17 @@ public class DefaultRecipeService implements RecipeService {
     }
 
     @Override
-    public Recipe saveOrUpdateRecipe(Recipe recipe) {
+    public Recipe saveNewRecipe(Recipe recipe) {
         return recipeRepository.save(recipe);
+    }
+
+    @Override
+    public Recipe updateRecipe(Long id, Recipe recipe) {  // method for RestController
+        Recipe updateRecipe = recipeRepository.findById(id).orElseThrow(() -> new NotFoundException("Recipe not found"));
+        if (recipe.getIngredients()!=null) updateRecipe.getIngredients().addAll(recipe.getIngredients());
+        if (recipe.getCategories()!=null) updateRecipe.getCategories().addAll(recipe.getCategories());
+        //etc impl late
+        return recipeRepository.save(updateRecipe);
     }
 
     @Override

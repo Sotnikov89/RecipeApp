@@ -1,6 +1,12 @@
 package com.example.recipeapp.model;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,6 +18,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Builder
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Recipe {
 
     @Id
@@ -36,9 +45,10 @@ public class Recipe {
     private Difficulty difficulty;
 
     @Lob
+    @JsonIgnore
     private Byte[] image;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "recipe", cascade = CascadeType.ALL)
     private Notes notes;
 
     public void addIngredient(Ingredient ingredient){

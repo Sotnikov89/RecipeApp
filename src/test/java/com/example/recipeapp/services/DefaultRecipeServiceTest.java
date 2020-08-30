@@ -5,7 +5,6 @@ import com.example.recipeapp.model.Recipe;
 import com.example.recipeapp.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -78,7 +77,7 @@ class DefaultRecipeServiceTest {
 
         when(recipeRepository.save(any())).thenReturn(recipe);
 
-        Recipe returnedRecipe = defaultRecipeService.saveOrUpdateRecipe(recipe);
+        Recipe returnedRecipe = defaultRecipeService.saveNewRecipe(recipe);
 
         assertNotNull(returnedRecipe);
         assertEquals(returnedRecipe.getId(), 3L);
