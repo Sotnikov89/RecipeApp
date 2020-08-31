@@ -4,6 +4,7 @@ import com.example.recipeapp.model.Recipe;
 import com.example.recipeapp.services.RecipeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -35,11 +36,13 @@ public class RestRecipeController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public Recipe updateRecipeById(@PathVariable Long id, @RequestBody Recipe recipe){
         return recipeService.updateRecipeById(id, recipe);
     }
 
     @DeleteMapping ("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteRecipe (@PathVariable Long id){
         recipeService.deleteById(id);
