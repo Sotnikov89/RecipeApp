@@ -31,12 +31,11 @@ public class DefaultRecipeService implements RecipeService {
     }
 
     @Override
-    public Recipe updateRecipe(Long id, Recipe recipe) {  // method for RestController
-        Recipe updateRecipe = recipeRepository.findById(id).orElseThrow(() -> new NotFoundException("Recipe not found"));
-        if (recipe.getIngredients()!=null) updateRecipe.getIngredients().addAll(recipe.getIngredients());
-        if (recipe.getCategories()!=null) updateRecipe.getCategories().addAll(recipe.getCategories());
-        //etc impl late
-        return recipeRepository.save(updateRecipe);
+    public Recipe updateRecipeById(Long id, Recipe recipe) {  // method for RestController
+        Recipe existRecipe = recipeRepository.findById(id).orElseThrow(() -> new NotFoundException("Recipe not found"));
+        recipe.getIngredients().forEach(ingredient -> ingredient.setRecipe(existRecipe));
+        recipe.getNotes().setRecipe(existRecipe);
+        return recipeRepository.save(recipe);
     }
 
     @Override

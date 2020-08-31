@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("api/v1/recipes")
+@RequestMapping("/api/v1/recipes")
 @AllArgsConstructor
 public class RestRecipeController {
 
@@ -35,8 +35,8 @@ public class RestRecipeController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Recipe saveExistingRecipe(@PathVariable Long id, @RequestBody Recipe recipe){
-        return recipeService.updateRecipe(id, recipe);  // NOT IMPL YET
+    public Recipe updateRecipeById(@PathVariable Long id, @RequestBody Recipe recipe){
+        return recipeService.updateRecipeById(id, recipe);
     }
 
     @DeleteMapping ("/{id}")
